@@ -2,4 +2,5 @@
 
 !.gitignore
 !setup.sql
-!create-account-table.sql
+!create-user-table.sql
+!create-account-table.sql   
