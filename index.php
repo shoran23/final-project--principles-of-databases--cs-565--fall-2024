@@ -23,9 +23,14 @@ if($option != null) {
     switch($option) {
         case NOTHING_FOUND:
             echo "Nothing Found";
+
             break;
         case SEARCH:
-            echo "Search";
+            if($_POST["search"] == "") {
+                echo '<div id="error">Search query empty. Please try again.</div>' . '\n';
+            } else {
+                echo 'Search';
+            }
             break;
         case UPDATE:
             echo "Update";
