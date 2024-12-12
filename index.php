@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <title>Final Project | CS 565 | Passwords Assignment</title>
@@ -23,13 +23,19 @@ if($option != null) {
     switch($option) {
         case SEARCH:
             if($_POST["search"] == "") {
-                echo '<div id="error">Search query empty. Please try again.</div>' . '\n';
+                echo '<div id="error">Search query empty. Please try again.</div>';
             } else {
                 search($_POST["search"]);
             }
             break;
         case UPDATE:
-            echo "Update";
+            $attribute = $_POST["new-attribute"];
+            $pattern = $_POST["pattern"];
+            if($attribute == "" || $pattern == "") {
+                echo '<div id="error">Update query empty. Please try again.</div>';
+            } else {
+                echo "proceed with update";
+            }
             break;
         case INSERT:
             echo "Insert";

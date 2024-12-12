@@ -18,6 +18,8 @@ function search($search): void {
 
         echo "<h1>Search</h1>";
 
+        $statement = $db->prepare("SELECT * FROM ");
+
         // create the query
         // prepare query
         // execute query
