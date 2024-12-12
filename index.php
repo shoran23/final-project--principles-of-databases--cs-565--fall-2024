@@ -25,7 +25,6 @@ if($option != null) {
             if($_POST["search"] == "") {
                 echo '<div id="error">Search query empty. Please try again.</div>' . '\n';
             } else {
-                echo 'Search ';
                 search($_POST["search"]);
             }
             break;
