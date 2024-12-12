@@ -1,10 +1,10 @@
 <?php
-
+include_once "components.php";
 function connectDb(): PDO {
     include_once "config.php";
 
     $db = new PDO(
-        "mysql:host=" . DBHOST . ";dbname=" . DBNAME . ";charset=utf8",
+        "mysql:host=" . DBHOST . ";dbname=" . DBNAME . "charset=utf8",
         DBUSER,
         DBPASS
     );
@@ -12,7 +12,7 @@ function connectDb(): PDO {
     return $db;
 }
 
-function search($search) {
+function search($search): void {
     try {
         $db = connectDb();
 
@@ -28,10 +28,10 @@ function search($search) {
 
 
     } catch (PDOException $e) {
-        // display the exception message
-        echo "<p>Error in the Search function</p>";
-        echo '<p id=="error">' . $e->getMessage() . '</p>';
-        echo '<p>Click <a href="/">here</a> to go back</p>';
+//        echo "<p>Error in the Search function</p>";
+//        echo '<p id=="error">' . $e->getMessage() . '</p>';
+//        echo '<p>Click <a href="/">here</a> to go back</p>';
+        renderErrorMessage($e);
         exit;
     }
 
