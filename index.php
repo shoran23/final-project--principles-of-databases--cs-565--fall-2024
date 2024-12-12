@@ -29,12 +29,15 @@ if($option != null) {
             }
             break;
         case UPDATE:
+            $attributeName = $_POST["current-attribute-name"];
             $attribute = $_POST["new-attribute"];
+            $queryAttribute = $_POST["query-attribute"];
             $pattern = $_POST["pattern"];
+
             if($attribute == "" || $pattern == "") {
                 echo '<div id="error">Update query empty. Please try again.</div>';
             } else {
-                echo "proceed with update";
+                update($attributeName, $attribute, $queryAttribute, $pattern);
             }
             break;
         case INSERT:

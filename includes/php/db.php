@@ -15,11 +15,8 @@ function connectDb(): PDO {
 function search($search): void {
     try {
         $db = connectDb();
-
         echo "<h1>Search</h1>";
-
         $statement = $db->prepare("SELECT * FROM ");
-
         // create the query
         // prepare query
         // execute query
@@ -27,15 +24,17 @@ function search($search): void {
         // create the table header
         // loop through the body
             // create each row
-
-
     } catch (PDOException $e) {
-//        echo "<p>Error in the Search function</p>";
-//        echo '<p id=="error">' . $e->getMessage() . '</p>';
-//        echo '<p>Click <a href="/">here</a> to go back</p>';
         renderErrorMessage($e);
         exit;
     }
+}
 
-
+function update($attributeName, $attribute, $queryAttribute, $pattern): void {
+    try {
+        $db = connectDb();
+        //$statement = $db->prepare("");
+    } catch (PDOException $e) {
+        renderErrorMessage($e);
+    }
 }
