@@ -40,8 +40,19 @@ if($option != null) {
                 update($attributeName, $attribute, $queryAttribute, $pattern);
             }
             break;
-        case INSERT:
-            echo "Insert";
+        case INSERT_USER:
+            $firstName = $_POST["first_name"];
+            $lastName = $_POST["last_name"];
+            $username = $_POST["username"];
+            $email = $_POST["email"];
+            if($firstName == "" || $lastName == "" || $username == "" || $email == "") {
+                echo '<div id="error">User form not fully entered. Please try again.</div>';
+            } else {
+                insertUser($firstName, $lastName, $username, $email);
+            }
+            break;
+        case INSERT_ACCOUNT:
+            echo "Insert Account";
             break;
         case DELETE:
             echo "Delete";
