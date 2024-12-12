@@ -1,4 +1,6 @@
-DROP DATABASE IF EXISTS password;
+\W -- Enable all warnings
+
+DROP DATABASE IF EXISTS passwords;
 
 CREATE DATABASE IF NOT EXISTS `passwords` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci;
 
