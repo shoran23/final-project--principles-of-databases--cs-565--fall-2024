@@ -53,7 +53,7 @@ if($option != null) {
 require_once "includes/html/search-form.html";
 require_once "includes/html/update-form.html";
 require_once "includes/html/insert-user-form.html";
-require_once "includes/html/insert-account-form.html";
+require_once "includes/php/insert-account-form.php";
 require_once "includes/html/delete-form.html";
 ?>
   </body>
