@@ -1,8 +1,14 @@
 <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
   <fieldset>
     <legend>Insert</legend>
-    INSERT INTO users VALUES ( <input type="text" name="artist-id" placeholder="artist_id" required>, <input type="text" name="artist-name" placeholder="artist_name" required> );
+    INSERT INTO users VALUES (
+      <input type="text" name="first_name" placeholder="First Name" required>,
+      <input type="text" name="last_name" placeholder="Last Name" required>,
+      <input type="text" name="username" placeholder="Username" required>,
+      <input type="text" name="email" placeholder="Email" required>
+    );
     <input type="hidden" name="submitted" value="3">
-    <p><input type="submit" value="insert"></p>
+    <p><input type="submit" value="insert-user"></p>
   </fieldset>
 </form>
+x
