@@ -77,7 +77,7 @@ require_once "includes/html/update-user-form.html";
 require_once "includes/php/update-account-form.php";
 require_once "includes/html/insert-user-form.html";
 require_once "includes/php/insert-account-form.php";
-require_once "includes/html/delete-form.html";
+require_once "includes/html/delete-user-form.html";
 ?>
   </body>
 </html>
