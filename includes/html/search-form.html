@@ -1,6 +1,11 @@
 <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
   <fieldset>
     <legend>Search</legend>
+    <select name="table">
+      <option value="users">Users</option>
+      <option value="accounts">Accounts</option>
+      <option value="both">Both</option>
+    </select>
     <input type="text" name="search" autofocus required>
     <input type="hidden" name="submitted" value="1">
     <p><input type="submit" value="search"></p>

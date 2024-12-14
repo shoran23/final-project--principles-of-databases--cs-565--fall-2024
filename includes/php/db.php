@@ -40,7 +40,6 @@ function getInitVector($db) {
 }
 
 function insertUser($firstName, $lastName, $username, $email): void {
-    echo "Insert Users";
     try {
         $db = connectDb();
         $statement = $db->prepare("INSERT INTO users (first_name, last_name, username, email) VALUES ('$firstName', '$lastName', '$username', '$email');");
@@ -65,7 +64,6 @@ function insertAccount($appName, $url, $comment, $username, $password): void {
 }
 
 function getUsernames(): array {
-    echo "get user names";
     try {
         $db = connectDb();
         $statement = $db->prepare("SELECT username FROM users;");
@@ -77,11 +75,51 @@ function getUsernames(): array {
     return [];
 }
 
-function search($search): void {
-    echo "Search";
+function searchUsers($search): void {
     try {
         $db = connectDb();
-        echo "<h1>Search</h1>";
+        $statement = $db->prepare("SELECT * FROM users WHERE " .
+            "first_name LIKE '%{$search}%' OR " .
+            "last_name LIKE '%{$search}%' OR " .
+            "username LIKE '%{$search}%' OR " .
+            "email LIKE '%{$search}%'"
+        );
+        $statement->execute();
+        $cols = $statement->fetchAll();
+        if (empty($cols)) {
+            echo "<h1>No Results</h1>";
+        } else {
+            renderTable($cols);
+        }
+    } catch (PDOException $e) {
+        renderErrorMessage($e);
+    }
+}
+
+function searchAccounts($search): void {
+    try {
+        $db = connectDb();
+        $statement = $db->prepare("SELECT * FROM accounts WHERE " .
+            "app_name LIKE '%{$search}%' OR " .
+            "url LIKE '%{$search}%' OR " .
+            "comment LIKE '%{$search}%' OR " .
+            "username LIKE '%{$search}%';"
+        );
+        $statement->execute();
+        $cols = $statement->fetchAll();
+        if (empty($cols)) {
+            echo "<h1>No Results</h1>";
+        } else {
+            renderTable($cols);
+        }
+    } catch (PDOException $e) {
+        renderErrorMessage($e);
+    }
+}
+
+function searchBoth($search): void {
+    try {
+        $db = connectDb();
         $statement = $db->prepare(
             "SELECT * FROM users NATURAL JOIN accounts WHERE " .
             "first_name LIKE '%{$search}%' OR " .
@@ -97,15 +135,8 @@ function search($search): void {
         if(count($cols) > 0) {
             renderTable($cols);
         } else {
-            echo "<p>no results</p>";
+            echo "<h1>No Results</h1>";
         }
-
-        // pass the cols to the table component
-
-        // create the table header
-        // loop through the body
-            // create each row
-
     } catch (PDOException $e) {
         renderErrorMessage($e);
         exit;
@@ -113,15 +144,21 @@ function search($search): void {
 }
 
 function updateUser($attributeName, $attribute, $queryAttribute, $pattern): void {
-
-    echo $attributeName . "\n";
-    echo $attribute . "\n";
-    echo $queryAttribute . "\n";
-    echo $pattern . "\n";
-
     try {
         $db = connectDb();
         $query = "UPDATE users SET {$attributeName} = '{$attribute}' WHERE {$queryAttribute} = '{$pattern}';";
+        $statement = $db->prepare($query);
+        $result = $statement->execute();
+        echo $result ? "<p>success</p>" : "<p>error</p>";
+    } catch (PDOException $e) {
+        renderErrorMessage($e);
+    }
+}
+
+function updateAccount($attributeName, $attribute, $queryAttribute, $pattern): void {
+    try {
+        $db = connectDb();
+        $query = "UPDATE accounts SET {$attributeName} = '{$attribute}' WHERE {$queryAttribute} = '{$pattern}';";
         $statement = $db->prepare($query);
         $result = $statement->execute();
         echo $result ? "<p>success</p>" : "<p>error</p>";

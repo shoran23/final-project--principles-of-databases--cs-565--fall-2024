@@ -22,10 +22,18 @@ $option = ($_POST["submitted"] ?? null);
 if($option != null) {
     switch($option) {
         case SEARCH:
-            if($_POST["search"] == "") {
-                echo '<div id="error">Search query empty. Please try again.</div>';
-            } else {
-                search($_POST["search"]);
+            $search = $_POST["search"];
+            $table = $_POST["table"];
+            switch ($table) {
+                case "users":
+                    searchUsers($search);
+                    break;
+                case "accounts":
+                    searchAccounts($search);
+                    break;
+                case "both":
+                    searchBoth($search);
+                    break;
             }
             break;
 
@@ -40,18 +48,19 @@ if($option != null) {
                 insertUser($firstName, $lastName, $username, $email);
             }
             break;
+
         case UPDATE_USER:
             $attributeName = $_POST["current-attribute-name"];
             $attribute = $_POST["new-attribute"];
             $queryAttribute = $_POST["query-attribute"];
             $pattern = $_POST["pattern"];
-
             if($attribute == "" || $pattern == "") {
                 echo '<div id="error">Update query empty. Please try again.</div>';
             } else {
                 updateUser($attributeName, $attribute, $queryAttribute, $pattern);
             }
             break;
+
         case DELETE_USER:
             echo "DELETE USER";
             break;
@@ -68,9 +77,19 @@ if($option != null) {
                 insertAccount($appName, $url, $comment, $username, $password);
             }
             break;
-        case UPDATE_ACCOUNT:
 
+        case UPDATE_ACCOUNT:
+            $attributeName = $_POST["current-attribute-name"];
+            $attribute = $_POST["new-attribute"];
+            $queryAttribute = $_POST["query-attribute"];
+            $pattern = $_POST["pattern"];
+            if($attribute == "" || $pattern == "") {
+                echo '<div id="error">Update query empty. Please try again.</div>';
+            } else {
+                updateAccount($attributeName, $attribute, $queryAttribute, $pattern);
+            }
             break;
+
         case DELETE_ACCOUNT:
             echo "Delete";
             break;
