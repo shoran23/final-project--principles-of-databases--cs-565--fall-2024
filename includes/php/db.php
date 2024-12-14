@@ -108,8 +108,10 @@ function search($search): void {
 
         $statement->execute();
         $cols = $statement->fetchAll();
-        foreach ($cols as $col) {
-            echo $col["first_name"];
+        if(count($cols) > 0) {
+            renderTable($cols);
+        } else {
+            echo "<p>no results</p>";
         }
 
         // pass the cols to the table component
