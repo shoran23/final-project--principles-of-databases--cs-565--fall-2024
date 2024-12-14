@@ -22,6 +22,22 @@ function insertUser($firstName, $lastName, $username, $email): void {
     }
 }
 
+function insertAccount($appName, $url, $comment, $username, $password): void {
+    echo $appName . "\r";
+    echo $url . "\r";
+    echo $comment . "\r";
+    echo $username . "\r";
+    echo $password . "\r";
+    try {
+        $db = connectDb();
+        $statement = $db->prepare("INSERT INTO accounts (app_name, url, password, comment, username, timestamp) VALUES ('$appName', '$url', '$password', '$comment', '$username', NOW());)");
+        $result = $statement->execute();
+        echo $result ? "<p>success</p>" : "<p>error</p>";
+    } catch (PDOException $e) {
+        renderErrorMessage($e);
+    }
+}
+
 function getUsernames(): array {
     echo "get user names";
     try {

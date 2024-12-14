@@ -16,7 +16,7 @@
         ?>
         <input type="password" name="password" placeholder="Password" required>
         );
-        <input type="hidden" name="submitted" value="3">
+        <input type="hidden" name="submitted" value="4">
         <p><input type="submit" value="insert-account"></p>
     </fieldset>
 </form>

@@ -52,7 +52,16 @@ if($option != null) {
             }
             break;
         case INSERT_ACCOUNT:
-            echo "Insert Account";
+            $appName = $_POST["app_name"];
+            $url = $_POST["url"];
+            $comment = $_POST["comment"];
+            $username = $_POST["username"];
+            $password = $_POST["password"];
+            if($appName == ""  || $username == "" || $password == "") {
+                echo '<div id="error">Account form not fully entered. Please try again.</div>';
+            } else {
+                insertAccount($appName, $url, $comment, $username, $password);
+            }
             break;
         case DELETE:
             echo "Delete";
