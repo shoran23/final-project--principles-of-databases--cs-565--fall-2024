@@ -9,6 +9,36 @@ function connectDb(): PDO {
     );
 }
 
+function getKey($db) {
+    try {
+        $statement = $db->prepare("SELECT @key_str AS key_str;");
+        $statement->execute();
+        $cols = $statement->fetchAll();
+        $keys = array_keys($cols[0]);
+        foreach ($keys as $key) {
+            echo $key;
+        }
+        //echo $cols[0]['key_str'];
+        return $cols[0]['key_str'];
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+    }
+    return "";
+}
+
+function getInitVector($db) {
+    try {
+        $statement = $db->prepare("SELECT @init_vector AS init_vector;");
+        $statement->execute();
+        $cols = $statement->fetchAll();
+        //echo count($cols) . "\n";
+        return $cols[0]['init_vector'];
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+    }
+    return "";
+}
+
 function insertUser($firstName, $lastName, $username, $email): void {
     echo "Insert Users";
     try {
@@ -23,14 +53,24 @@ function insertUser($firstName, $lastName, $username, $email): void {
 }
 
 function insertAccount($appName, $url, $comment, $username, $password): void {
-    echo $appName . "\r";
-    echo $url . "\r";
-    echo $comment . "\r";
-    echo $username . "\r";
-    echo $password . "\r";
+
+    //echo $password . "\n";
+
     try {
         $db = connectDb();
-        $statement = $db->prepare("INSERT INTO accounts (app_name, url, password, comment, username, timestamp) VALUES ('$appName', '$url', '$password', '$comment', '$username', NOW());)");
+
+        $key = getKey($db);
+        $initVector = getInitVector($db);
+
+        $query = "INSERT INTO accounts (app_name, url, password, comment, username, timestamp) VALUES(:appName, :url, AES_ENCRYPT(:password, :keyStr, :initVector), :comment, :username, NOW());";
+        $statement = $db->prepare($query);
+        $statement->bindValue('appName', $appName, PDO::PARAM_STR);
+        $statement->bindValue('url', $url, PDO::PARAM_STR);
+        $statement->bindValue('password', $password, PDO::PARAM_STR);
+        $statement->bindValue('comment', $comment, PDO::PARAM_STR);
+        $statement->bindValue('username', $username, PDO::PARAM_STR);
+        $statement->bindValue("keyStr", $key, PDO::PARAM_STR);
+        $statement->bindValue("initVector", $initVector, PDO::PARAM_STR);
         $result = $statement->execute();
         echo $result ? "<p>success</p>" : "<p>error</p>";
     } catch (PDOException $e) {
