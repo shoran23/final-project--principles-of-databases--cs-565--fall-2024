@@ -54,7 +54,7 @@ function insertUser($firstName, $lastName, $username, $email): void {
 
 function insertAccount($appName, $url, $comment, $username, $password): void {
 
-    //echo $password . "\n";
+    // todo need to implement encryption
 
     try {
         $db = connectDb();
@@ -62,15 +62,15 @@ function insertAccount($appName, $url, $comment, $username, $password): void {
         $key = getKey($db);
         $initVector = getInitVector($db);
 
-        $query = "INSERT INTO accounts (app_name, url, password, comment, username, timestamp) VALUES(:appName, :url, AES_ENCRYPT(:password, :keyStr, :initVector), :comment, :username, NOW());";
+        $query = "INSERT INTO accounts (app_name, url, password, comment, username, timestamp) VALUES(:appName, :url, :password, :comment, :username, NOW());";
         $statement = $db->prepare($query);
         $statement->bindValue('appName', $appName, PDO::PARAM_STR);
         $statement->bindValue('url', $url, PDO::PARAM_STR);
         $statement->bindValue('password', $password, PDO::PARAM_STR);
         $statement->bindValue('comment', $comment, PDO::PARAM_STR);
         $statement->bindValue('username', $username, PDO::PARAM_STR);
-        $statement->bindValue("keyStr", $key, PDO::PARAM_STR);
-        $statement->bindValue("initVector", $initVector, PDO::PARAM_STR);
+//        $statement->bindValue("keyStr", $key, PDO::PARAM_STR);
+//        $statement->bindValue("initVector", $initVector, PDO::PARAM_STR);
         $result = $statement->execute();
         echo $result ? "<p>success</p>" : "<p>error</p>";
     } catch (PDOException $e) {
