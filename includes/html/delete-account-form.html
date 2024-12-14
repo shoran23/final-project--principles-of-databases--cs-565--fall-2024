@@ -1,0 +1,13 @@
+<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+    <fieldset>
+        <legend>Delete Account</legend>
+        DELETE FROM accounts WHERE
+        <select name="current-attribute" id="current-attribute">
+            <option>app name</option>
+            <option>url</option>
+        </select>
+        = <input type="text" name="pattern" required>
+        <input type="hidden" name="submitted" value="7">
+        <p><input type="submit" value="delete"></p>
+    </fieldset>
+</form>

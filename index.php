@@ -28,6 +28,18 @@ if($option != null) {
                 search($_POST["search"]);
             }
             break;
+
+        case INSERT_USER:
+            $firstName = $_POST["first_name"];
+            $lastName = $_POST["last_name"];
+            $username = $_POST["username"];
+            $email = $_POST["email"];
+            if($firstName == "" || $lastName == "" || $username == "" || $email == "") {
+                echo '<div id="error">User form not fully entered. Please try again.</div>';
+            } else {
+                insertUser($firstName, $lastName, $username, $email);
+            }
+            break;
         case UPDATE_USER:
             $attributeName = $_POST["current-attribute-name"];
             $attribute = $_POST["new-attribute"];
@@ -40,17 +52,10 @@ if($option != null) {
                 update($attributeName, $attribute, $queryAttribute, $pattern);
             }
             break;
-        case INSERT_USER:
-            $firstName = $_POST["first_name"];
-            $lastName = $_POST["last_name"];
-            $username = $_POST["username"];
-            $email = $_POST["email"];
-            if($firstName == "" || $lastName == "" || $username == "" || $email == "") {
-                echo '<div id="error">User form not fully entered. Please try again.</div>';
-            } else {
-                insertUser($firstName, $lastName, $username, $email);
-            }
+        case DELETE_USER:
+            echo "DELETE USER";
             break;
+
         case INSERT_ACCOUNT:
             $appName = $_POST["app_name"];
             $url = $_POST["url"];
@@ -66,7 +71,7 @@ if($option != null) {
         case UPDATE_ACCOUNT:
 
             break;
-        case DELETE:
+        case DELETE_ACCOUNT:
             echo "Delete";
             break;
     }

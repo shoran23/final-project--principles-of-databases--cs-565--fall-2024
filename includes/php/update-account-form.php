@@ -14,7 +14,7 @@
             <option>app name</option>
         </select>
         = <input type="text" name="pattern" required>
-        <input type="hidden" name="submitted" value="2">
+        <input type="hidden" name="submitted" value="6">
         <p><input type="submit" value="update-account"></p>
     </fieldset>
 </form>
