@@ -15,3 +15,4 @@ SET @init_vector = RANDOM_BYTES(16);
 
 SOURCE create-user-table.sql;
 SOURCE create-account-table.sql;
+SOURCE create-user-account-table.sql;
