@@ -92,17 +92,32 @@ function getUsernames(): array {
 }
 
 function search($search): void {
+    echo "Search";
     try {
         $db = connectDb();
         echo "<h1>Search</h1>";
-        $statement = $db->prepare("SELECT * FROM ");
-        // create the query
-        // prepare query
-        // execute query
-        // check the statement results
+        $statement = $db->prepare(
+            "SELECT * FROM users NATURAL JOIN accounts WHERE " .
+            "first_name LIKE '%{$search}%' OR " .
+            "last_name LIKE '%{$search}%' OR " .
+            "username LIKE '%{$search}%' OR " .
+            "email LIKE '%{$search}%' OR " .
+            "app_name LIKE '%{$search}%' OR " .
+            "url LIKE '%{$search}%';"
+         );
+
+        $statement->execute();
+        $cols = $statement->fetchAll();
+        foreach ($cols as $col) {
+            echo $col["first_name"];
+        }
+
+        // pass the cols to the table component
+
         // create the table header
         // loop through the body
             // create each row
+
     } catch (PDOException $e) {
         renderErrorMessage($e);
         exit;
