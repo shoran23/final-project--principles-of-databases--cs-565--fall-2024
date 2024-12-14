@@ -6,8 +6,12 @@
         <input type="text" name="url" placeholder="URL">,
         <input type="text" name="comment" placeholder="Comment">,
         <?php
+            $rows = getUsernames();
             echo '<select name="username" id="username">';
-            echo '    <option>Retrieve Usernames</option>';
+                echo '<option value="" disabled selected>Select Username</option>';
+            foreach ($rows as $row) {
+                echo '<option>'.$row["username"].'</option>';
+            }
             echo '</select>';
         ?>
         <input type="password" name="password" placeholder="Password" required>

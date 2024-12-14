@@ -22,6 +22,19 @@ function insertUser($firstName, $lastName, $username, $email): void {
     }
 }
 
+function getUsernames(): array {
+    echo "get user names";
+    try {
+        $db = connectDb();
+        $statement = $db->prepare("SELECT username FROM users;");
+        $statement->execute();
+        return $statement->fetchAll();
+    } catch (PDOException $e) {
+        renderErrorMessage($e);
+    }
+    return [];
+}
+
 function search($search): void {
     try {
         $db = connectDb();
