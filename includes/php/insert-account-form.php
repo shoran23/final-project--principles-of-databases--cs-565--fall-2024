@@ -1,6 +1,6 @@
 <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
     <fieldset>
-        <legend>Insert</legend>
+        <legend>Insert Account</legend>
         INSERT INTO accounts VALUES (
         <input type="text" name="app_name" placeholder="Application Name" required>,
         <input type="text" name="url" placeholder="URL">,

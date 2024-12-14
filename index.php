@@ -28,7 +28,7 @@ if($option != null) {
                 search($_POST["search"]);
             }
             break;
-        case UPDATE:
+        case UPDATE_USER:
             $attributeName = $_POST["current-attribute-name"];
             $attribute = $_POST["new-attribute"];
             $queryAttribute = $_POST["query-attribute"];
@@ -63,15 +63,18 @@ if($option != null) {
                 insertAccount($appName, $url, $comment, $username, $password);
             }
             break;
+        case UPDATE_ACCOUNT:
+
+            break;
         case DELETE:
             echo "Delete";
             break;
     }
 }
 
-
 require_once "includes/html/search-form.html";
-require_once "includes/html/update-form.html";
+require_once "includes/html/update-user-form.html";
+require_once "includes/php/update-account-form.php";
 require_once "includes/html/insert-user-form.html";
 require_once "includes/php/insert-account-form.php";
 require_once "includes/html/delete-form.html";
