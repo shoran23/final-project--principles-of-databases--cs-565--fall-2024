@@ -112,10 +112,19 @@ function search($search): void {
     }
 }
 
-function update($attributeName, $attribute, $queryAttribute, $pattern): void {
+function updateUser($attributeName, $attribute, $queryAttribute, $pattern): void {
+
+    echo $attributeName . "\n";
+    echo $attribute . "\n";
+    echo $queryAttribute . "\n";
+    echo $pattern . "\n";
+
     try {
         $db = connectDb();
-        //$statement = $db->prepare("");
+        $query = "UPDATE users SET {$attributeName} = '{$attribute}' WHERE {$queryAttribute} = '{$pattern}';";
+        $statement = $db->prepare($query);
+        $result = $statement->execute();
+        echo $result ? "<p>success</p>" : "<p>error</p>";
     } catch (PDOException $e) {
         renderErrorMessage($e);
     }

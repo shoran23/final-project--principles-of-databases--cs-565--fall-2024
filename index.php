@@ -49,7 +49,7 @@ if($option != null) {
             if($attribute == "" || $pattern == "") {
                 echo '<div id="error">Update query empty. Please try again.</div>';
             } else {
-                update($attributeName, $attribute, $queryAttribute, $pattern);
+                updateUser($attributeName, $attribute, $queryAttribute, $pattern);
             }
             break;
         case DELETE_USER:
