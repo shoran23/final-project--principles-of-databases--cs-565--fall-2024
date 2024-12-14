@@ -166,3 +166,15 @@ function updateAccount($attributeName, $attribute, $queryAttribute, $pattern): v
         renderErrorMessage($e);
     }
 }
+
+function deleteAccount($attributeName, $pattern): void {
+    try {
+        $db = connectDb();
+        $query = "DELETE FROM accounts WHERE {$attributeName} = '{$pattern}';";
+        $statement = $db->prepare($query);
+        $result = $statement->execute();
+        echo $result ? "<p>success</p>" : "<p>error</p>";
+    } catch (PDOException $e) {
+        renderErrorMessage($e);
+    }
+}

@@ -91,7 +91,14 @@ if($option != null) {
             break;
 
         case DELETE_ACCOUNT:
-            echo "Delete";
+            $attributeName = $_POST["current-attribute"];
+            $pattern = $_POST["pattern"];
+
+            if($attributeName == "" || $pattern == "") {
+                echo '<div id="error">Update query empty. Please try again.</div>';
+            } else {
+                deleteAccount($attributeName, $pattern);
+            }
             break;
     }
 }
@@ -101,7 +108,7 @@ require_once "includes/html/update-user-form.html";
 require_once "includes/php/update-account-form.php";
 require_once "includes/html/insert-user-form.html";
 require_once "includes/php/insert-account-form.php";
-require_once "includes/html/delete-user-form.html";
+require_once "includes/html/delete-account-form.html";
 ?>
   </body>
 </html>
