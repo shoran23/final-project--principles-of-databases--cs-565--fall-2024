@@ -1,42 +1,16 @@
 <?php
 include_once "components.php";
-function connectDb(): PDO {
+
+$key_str = base64_encode("my secret key");
+
+function connectDb(): PDO
+{
     include_once "config.php";
     return new PDO(
         "mysql:host=" . DBHOST . ";dbname=" . DBNAME . ";charset=utf8",
         DBUSER,
         DBPASS
     );
-}
-
-function getKey($db) {
-    try {
-        $statement = $db->prepare("SELECT @key_str AS key_str;");
-        $statement->execute();
-        $cols = $statement->fetchAll();
-        $keys = array_keys($cols[0]);
-        foreach ($keys as $key) {
-            echo $key;
-        }
-        //echo $cols[0]['key_str'];
-        return $cols[0]['key_str'];
-    } catch (PDOException $e) {
-        echo $e->getMessage();
-    }
-    return "";
-}
-
-function getInitVector($db) {
-    try {
-        $statement = $db->prepare("SELECT @init_vector AS init_vector;");
-        $statement->execute();
-        $cols = $statement->fetchAll();
-        //echo count($cols) . "\n";
-        return $cols[0]['init_vector'];
-    } catch (PDOException $e) {
-        echo $e->getMessage();
-    }
-    return "";
 }
 
 function insertUser($firstName, $lastName, $username, $email): void {
@@ -52,9 +26,11 @@ function insertUser($firstName, $lastName, $username, $email): void {
 }
 
 function insertAccount($appName, $url, $comment, $username, $password): void {
+    global $key_str;
+    echo $key_str;
     try {
         $db = connectDb();
-        $query = "INSERT INTO accounts (app_name, url, comment, username, password, timestamp) VALUES ('{$appName}', '{$url}', '{$comment}', '{$username}', '{$password}', NOW());";
+        $query = "INSERT INTO accounts (app_name, url, comment, username, password, timestamp) VALUES ('{$appName}', '{$url}', '{$comment}', '{$username}', AES_ENCRYPT('{$password}', '{$key_str}'), NOW());";
         $statement = $db->prepare($query);
         $result = $statement->execute();
         echo $result ? "<p>success</p>" : "<p>error</p>";
@@ -117,17 +93,29 @@ function searchAccounts($search): void {
     }
 }
 
+//AES_ENCRYPT('{$password}', UNHEX(SHA2('my secret passphrase', 512)), RANDOM_BYTES(32))
 function searchBoth($search): void {
+    global $key_str;
     try {
         $db = connectDb();
         $statement = $db->prepare(
-            "SELECT * FROM users NATURAL JOIN accounts WHERE " .
-            "first_name LIKE '%{$search}%' OR " .
-            "last_name LIKE '%{$search}%' OR " .
-            "username LIKE '%{$search}%' OR " .
-            "email LIKE '%{$search}%' OR " .
-            "app_name LIKE '%{$search}%' OR " .
-            "url LIKE '%{$search}%';"
+            "SELECT " .
+                "first_name AS 'First Name', " .
+                "last_name AS 'Last Name', " .
+                "accounts.username AS 'Username', " .
+                "email AS 'Email', " .
+                "app_name AS 'App Name', " .
+                "url AS 'URL', " .
+                "comment AS 'Comment', " .
+                "CAST(AES_DECRYPT(password, '{$key_str}') AS CHAR) AS 'Plain Text Password' " .
+
+            "FROM users NATURAL JOIN accounts WHERE " .
+                "first_name LIKE '%{$search}%' OR " .
+                "last_name LIKE '%{$search}%' OR " .
+                "username LIKE '%{$search}%' OR " .
+                "email LIKE '%{$search}%' OR " .
+                "app_name LIKE '%{$search}%' OR " .
+                "url LIKE '%{$search}%';"
          );
 
         $statement->execute();
