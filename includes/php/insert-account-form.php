@@ -4,7 +4,7 @@
         INSERT INTO accounts VALUES (
         <input type="text" name="app_name" placeholder="Application Name" required>,
         <input type="text" name="url" placeholder="URL">,
-        <textarea type="text" name="comment" placeholder="Comment"></textarea>,
+
         <?php
             $rows = getUsernames();
             echo '<select name="username" id="username">';
@@ -15,6 +15,7 @@
             echo '</select>';
         ?>
         <input type="password" name="password" placeholder="Password" required>
+        <textarea type="text" name="comment" placeholder="Comment"></textarea>,
         );
         <input type="hidden" name="submitted" value="5">
         <p><input type="submit" value="insert-account"></p>
