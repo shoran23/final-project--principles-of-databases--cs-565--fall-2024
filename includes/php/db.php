@@ -178,3 +178,15 @@ function deleteAccount($attributeName, $pattern): void {
         renderErrorMessage($e);
     }
 }
+
+function deleteUser($attributeName, $pattern): void {
+    try {
+        $db = connectDb();
+        $query = "DELETE FROM users WHERE {$attributeName} = '{$pattern}';";
+        $statement = $db->prepare($query);
+        $result = $statement->execute();
+        echo $result ? "<p>success</p>" : "<p>error</p>";
+    } catch (PDOException $e) {
+        renderErrorMessage($e);
+    }
+}

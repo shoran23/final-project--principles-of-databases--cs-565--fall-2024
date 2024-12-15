@@ -62,7 +62,17 @@ if($option != null) {
             break;
 
         case DELETE_USER:
-            echo "DELETE USER";
+            $attributeName = $_POST["current-attribute"];
+            $pattern = $_POST["pattern"];
+
+            echo $attributeName . "\n";
+            echo $pattern . "\n";
+
+            if($attributeName == "" || $pattern == "") {
+                echo '<div id="error">Update query empty. Please try again.</div>';
+            } else {
+                deleteUser($attributeName, $pattern);
+            }
             break;
 
         case INSERT_ACCOUNT:
@@ -114,6 +124,7 @@ require_once "includes/php/update-account-form.php";
 require_once "includes/html/insert-user-form.html";
 require_once "includes/php/insert-account-form.php";
 require_once "includes/html/delete-account-form.html";
+require_once "includes/html/delete-user-form.html";
 ?>
   </body>
 </html>
