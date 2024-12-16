@@ -152,10 +152,14 @@ function updateUser($attributeName, $attribute, $queryAttribute, $pattern): void
 }
 
 function updateAccount($attributeName, $attribute, $queryAttribute, $pattern): void {
-    // todo if the password is being updated be sure the encrypt it
+    global $key_str;
     try {
         $db = connectDb();
-        $query = "UPDATE accounts SET {$attributeName} = '{$attribute}' WHERE {$queryAttribute} = '{$pattern}';";
+        if($attributeName == "password") {
+            $query = "UPDATE accounts SET {$attributeName} = AES_ENCRYPT('{$attribute}', '{$key_str}') WHERE {$queryAttribute} = '{$pattern}';";
+        } else {
+            $query = "UPDATE accounts SET {$attributeName} = '{$attribute}' WHERE {$queryAttribute} = '{$pattern}';";
+        }
         $statement = $db->prepare($query);
         $result = $statement->execute();
         echo $result ? "<p>success</p>" : "<p>error</p>";
