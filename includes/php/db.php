@@ -152,6 +152,7 @@ function updateUser($attributeName, $attribute, $queryAttribute, $pattern): void
 }
 
 function updateAccount($attributeName, $attribute, $queryAttribute, $pattern): void {
+    // todo if the password is being updated be sure the encrypt it
     try {
         $db = connectDb();
         $query = "UPDATE accounts SET {$attributeName} = '{$attribute}' WHERE {$queryAttribute} = '{$pattern}';";
@@ -175,9 +176,30 @@ function deleteAccount($attributeName, $pattern): void {
     }
 }
 
+function getUsername($db, $attributeName, $pattern): string {
+    try {
+        $query = "SELECT username FROM users WHERE {$attributeName} = '{$pattern}';";
+        $statement = $db->prepare($query);
+        $statement->execute();
+        $result = $statement->fetchAll();
+        return $result[0]["username"];
+    } catch (PDOException $e) {
+        renderErrorMessage($e);
+    }
+    return "";
+}
+
 function deleteUser($attributeName, $pattern): void {
+    // todo when deleting a user first check if any accounts are tied to the user
+    // todo if any of the accounts are tied to the user then set their usernames to null
     try {
         $db = connectDb();
+        $username = getUsername($db, $attributeName, $pattern);
+        if(strlen($username) > 0) {
+            // todo proceed to wipe the accounts with the username
+            $statement = $db->prepare("UPDATE accounts SET username = NULL WHERE username = '{$username}';");
+            $statement->execute();
+        }
         $query = "DELETE FROM users WHERE {$attributeName} = '{$pattern}';";
         $statement = $db->prepare($query);
         $result = $statement->execute();
