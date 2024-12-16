@@ -190,13 +190,10 @@ function getUsername($db, $attributeName, $pattern): string {
 }
 
 function deleteUser($attributeName, $pattern): void {
-    // todo when deleting a user first check if any accounts are tied to the user
-    // todo if any of the accounts are tied to the user then set their usernames to null
     try {
         $db = connectDb();
         $username = getUsername($db, $attributeName, $pattern);
         if(strlen($username) > 0) {
-            // todo proceed to wipe the accounts with the username
             $statement = $db->prepare("UPDATE accounts SET username = NULL WHERE username = '{$username}';");
             $statement->execute();
         }
