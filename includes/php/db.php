@@ -73,9 +73,18 @@ function searchUsers($search): void {
 }
 
 function searchAccounts($search): void {
+    global $key_str;
     try {
         $db = connectDb();
-        $statement = $db->prepare("SELECT * FROM accounts WHERE " .
+        $statement = $db->prepare(
+            "SELECT " .
+                "app_name AS 'App Name', " .
+                "url AS 'URL', " .
+                "comment AS 'Comment', " .
+                "username AS 'Username', " .
+                "CAST(AES_DECRYPT(password, '{$key_str}') AS CHAR) AS 'Plain Text Password', " .
+                "timestamp AS 'Timestamp'" .
+            "FROM accounts WHERE " .
             "app_name LIKE '%{$search}%' OR " .
             "url LIKE '%{$search}%' OR " .
             "comment LIKE '%{$search}%' OR " .
@@ -93,7 +102,6 @@ function searchAccounts($search): void {
     }
 }
 
-//AES_ENCRYPT('{$password}', UNHEX(SHA2('my secret passphrase', 512)), RANDOM_BYTES(32))
 function searchBoth($search): void {
     global $key_str;
     try {
