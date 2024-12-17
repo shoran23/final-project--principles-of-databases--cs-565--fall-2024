@@ -4,3 +4,4 @@
 !setup.sql
 !create-user-table.sql
 !create-account-table.sql
+!populate-user-table.sql

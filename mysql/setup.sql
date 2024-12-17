@@ -10,9 +10,7 @@ GRANT ALL PRIVILEGES ON passwords.* TO 'passwords_user'@'localhost';
 USE passwords;
 
 SET block_encryption_mode = 'aes-256-cbc';
-SET @key_str = UNHEX(SHA2('my secret passphrase', 512));
-SET @init_vector = RANDOM_BYTES(32);
-SET @test = 'test';
 
 SOURCE create-user-table.sql;
 SOURCE create-account-table.sql;
+SOURCE populate-user-table.sql;
