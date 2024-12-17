@@ -3,7 +3,6 @@
 function renderErrorMessage($e): void {
     echo "<p>SQL Error</p>";
     echo '<p id=="error">' . $e->getMessage() . '</p>';
-    echo '<p>Click <a href="/">here</a> to go back</p>';
 }
 
 function renderTable($cols): void {
