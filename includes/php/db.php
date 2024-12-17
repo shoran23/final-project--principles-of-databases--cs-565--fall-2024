@@ -1,8 +1,6 @@
 <?php
 include_once "components.php";
 
-$key_str = base64_encode("my secret key");
-
 function connectDb(): PDO
 {
     include_once "config.php";
@@ -33,7 +31,6 @@ function insertUser($firstName, $lastName, $username, $email): void {
 }
 
 function insertAccount($appName, $url, $comment, $username, $password): void {
-    global $key_str;
     try {
         $db = connectDb();
         $query = "INSERT INTO accounts (app_name, url, comment, username, password, timestamp) VALUES ('{$appName}', '{$url}', '{$comment}', '{$username}', AES_ENCRYPT('{$password}', @key_str, @init_vector), NOW());";
@@ -79,7 +76,6 @@ function searchUsers($search): void {
 }
 
 function searchAccounts($search): void {
-    global $key_str;
     try {
         $db = connectDb();
         $statement = $db->prepare(
@@ -109,7 +105,6 @@ function searchAccounts($search): void {
 }
 
 function searchBoth($search): void {
-    global $key_str;
     try {
         $db = connectDb();
         $statement = $db->prepare(
@@ -158,7 +153,6 @@ function updateUser($attributeName, $attribute, $queryAttribute, $pattern): void
 }
 
 function updateAccount($attributeName, $attribute, $queryAttribute, $pattern): void {
-    global $key_str;
     try {
         $db = connectDb();
         if($attributeName == "password") {
