@@ -65,10 +65,6 @@ if($option != null) {
         case DELETE_USER:
             $attributeName = $_POST["current-attribute"];
             $pattern = $_POST["pattern"];
-
-            echo $attributeName . "\n";
-            echo $pattern . "\n";
-
             if($attributeName == "" || $pattern == "") {
                 echo '<div id="error">Update query empty. Please try again.</div>';
             } else {
@@ -94,12 +90,6 @@ if($option != null) {
             $attribute = $_POST["new-attribute"];
             $queryAttribute = $_POST["query-attribute"];
             $pattern = $_POST["pattern"];
-
-            echo $attributeName . "\n";
-            echo $attribute . "\n";
-            echo $queryAttribute . "\n";
-            echo $pattern . "\n";
-
             if($attribute == "" || $pattern == "") {
                 echo '<div id="error">Update query empty. Please try again.</div>';
             } else {

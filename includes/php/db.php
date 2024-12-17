@@ -27,7 +27,6 @@ function insertUser($firstName, $lastName, $username, $email): void {
 
 function insertAccount($appName, $url, $comment, $username, $password): void {
     global $key_str;
-    echo $key_str;
     try {
         $db = connectDb();
         $query = "INSERT INTO accounts (app_name, url, comment, username, password, timestamp) VALUES ('{$appName}', '{$url}', '{$comment}', '{$username}', AES_ENCRYPT('{$password}', '{$key_str}'), NOW());";
