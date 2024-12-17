@@ -30,5 +30,4 @@
         <input type="hidden" name="submitted" value="6">
         <p><input type="submit" value="update-account"></p>
     </fieldset>
-    <script type="text/javascript" src="/includes/scripts/updateAccount.js"></script>
 </form>
