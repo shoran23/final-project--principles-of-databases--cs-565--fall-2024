@@ -4,11 +4,10 @@
     <meta charset="utf-8">
     <title>Final Project | CS 565 | Passwords Assignment</title>
     <link rel="stylesheet" href="css/style.css">
-<!--      <script type="text/javascript" src="scripts/updateAccount.js"></script>-->
   </head>
   <body>
     <header>
-      <h1>CRUD Operations via a Web Interface</h1>
+      <h1>Passwords Application</h1>
     </header>
     <form id="clear-results" method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
     </form>
