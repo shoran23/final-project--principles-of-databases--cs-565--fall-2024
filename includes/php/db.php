@@ -6,11 +6,18 @@ $key_str = base64_encode("my secret key");
 function connectDb(): PDO
 {
     include_once "config.php";
-    return new PDO(
+    $db = new PDO(
         "mysql:host=" . DBHOST . ";dbname=" . DBNAME . ";charset=utf8",
         DBUSER,
         DBPASS
     );
+    $statement = $db->prepare("SET block_encryption_mode = 'aes-256-cbc';");
+    $statement->execute();
+    $statement = $db->prepare("SET @key_str = UNHEX(SHA2('my secret key', 512));");
+    $statement->execute();
+    $statement = $db->prepare("SET @init_vector = 0xED816B3AB958DB90B4FC103E19776242");
+    $statement->execute();
+    return $db;
 }
 
 function insertUser($firstName, $lastName, $username, $email): void {
@@ -29,7 +36,7 @@ function insertAccount($appName, $url, $comment, $username, $password): void {
     global $key_str;
     try {
         $db = connectDb();
-        $query = "INSERT INTO accounts (app_name, url, comment, username, password, timestamp) VALUES ('{$appName}', '{$url}', '{$comment}', '{$username}', AES_ENCRYPT('{$password}', '{$key_str}'), NOW());";
+        $query = "INSERT INTO accounts (app_name, url, comment, username, password, timestamp) VALUES ('{$appName}', '{$url}', '{$comment}', '{$username}', AES_ENCRYPT('{$password}', @key_str, @init_vector), NOW());";
         $statement = $db->prepare($query);
         $result = $statement->execute();
         echo $result ? "<h1>Insert Account Successful</h1>" : "<h1>Insert Account Failed</h1>";
@@ -81,7 +88,7 @@ function searchAccounts($search): void {
                 "url AS 'URL', " .
                 "comment AS 'Comment', " .
                 "username AS 'Username', " .
-                "CAST(AES_DECRYPT(password, '{$key_str}') AS CHAR) AS 'Plain Text Password', " .
+                "AES_DECRYPT(password, @key_str, @init_vector) AS 'Password', " .
                 "timestamp AS 'Timestamp'" .
             "FROM accounts WHERE " .
             "app_name LIKE '%{$search}%' OR " .
@@ -114,7 +121,7 @@ function searchBoth($search): void {
                 "app_name AS 'App Name', " .
                 "url AS 'URL', " .
                 "comment AS 'Comment', " .
-                "CAST(AES_DECRYPT(password, '{$key_str}') AS CHAR) AS 'Plain Text Password' " .
+                "CAST(AES_DECRYPT(password, @key_str, @init_vector) AS CHAR ) AS 'Password' " .
 
             "FROM users NATURAL JOIN accounts WHERE " .
                 "first_name LIKE '%{$search}%' OR " .
@@ -155,7 +162,7 @@ function updateAccount($attributeName, $attribute, $queryAttribute, $pattern): v
     try {
         $db = connectDb();
         if($attributeName == "password") {
-            $query = "UPDATE accounts SET {$attributeName} = AES_ENCRYPT('{$attribute}', '{$key_str}') WHERE {$queryAttribute} = '{$pattern}';";
+            $query = "UPDATE accounts SET {$attributeName} = AES_ENCRYPT('{$attribute}', @key_str, @init_vector) WHERE {$queryAttribute} = '{$pattern}';";
         } else {
             $query = "UPDATE accounts SET {$attributeName} = '{$attribute}' WHERE {$queryAttribute} = '{$pattern}';";
         }

@@ -5,3 +5,4 @@
 !create-user-table.sql
 !create-account-table.sql
 !populate-user-table.sql
+!populate-account-table.sql
