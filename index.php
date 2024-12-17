@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Final Project | CS 565 | Passwords Assignment</title>
     <link rel="stylesheet" href="css/style.css">
-      <script type="text/javascript" src="scripts/updateAccount.js"></script>
+<!--      <script type="text/javascript" src="scripts/updateAccount.js"></script>-->
   </head>
   <body>
     <header>
