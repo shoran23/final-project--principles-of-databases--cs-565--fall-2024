@@ -184,27 +184,9 @@ function deleteAccount($attributeName, $pattern): void {
     }
 }
 
-function getUsername($db, $attributeName, $pattern): string {
-    try {
-        $query = "SELECT username FROM users WHERE {$attributeName} = '{$pattern}';";
-        $statement = $db->prepare($query);
-        $statement->execute();
-        $result = $statement->fetchAll();
-        return $result[0]["username"];
-    } catch (PDOException $e) {
-        renderErrorMessage($e);
-    }
-    return "";
-}
-
 function deleteUser($attributeName, $pattern): void {
     try {
         $db = connectDb();
-        $username = getUsername($db, $attributeName, $pattern);
-        if(strlen($username) > 0) {
-            $statement = $db->prepare("UPDATE accounts SET username = NULL WHERE username = '{$username}';");
-            $statement->execute();
-        }
         $query = "DELETE FROM users WHERE {$attributeName} = '{$pattern}';";
         $statement = $db->prepare($query);
         $result = $statement->execute();
