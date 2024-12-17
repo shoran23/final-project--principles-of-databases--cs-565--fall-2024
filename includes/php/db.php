@@ -18,7 +18,7 @@ function insertUser($firstName, $lastName, $username, $email): void {
         $db = connectDb();
         $statement = $db->prepare("INSERT INTO users (first_name, last_name, username, email) VALUES ('$firstName', '$lastName', '$username', '$email');");
         $result = $statement->execute();
-        echo $result ? "<p>success</p>" : "<p>error</p>";
+        echo $result ? "<h1>Insert User Successful</h1>" : "<h1>Insert User Failed</h1>";
 
     } catch (PDOException $e) {
         renderErrorMessage($e);
@@ -33,7 +33,7 @@ function insertAccount($appName, $url, $comment, $username, $password): void {
         $query = "INSERT INTO accounts (app_name, url, comment, username, password, timestamp) VALUES ('{$appName}', '{$url}', '{$comment}', '{$username}', AES_ENCRYPT('{$password}', '{$key_str}'), NOW());";
         $statement = $db->prepare($query);
         $result = $statement->execute();
-        echo $result ? "<p>success</p>" : "<p>error</p>";
+        echo $result ? "<h1>Insert Account Successful</h1>" : "<h1>Insert Account Failed</h1>";
     } catch (PDOException $e) {
         renderErrorMessage($e);
     }
@@ -145,7 +145,7 @@ function updateUser($attributeName, $attribute, $queryAttribute, $pattern): void
         $query = "UPDATE users SET {$attributeName} = '{$attribute}' WHERE {$queryAttribute} = '{$pattern}';";
         $statement = $db->prepare($query);
         $result = $statement->execute();
-        echo $result ? "<p>success</p>" : "<p>error</p>";
+        echo $result ? "<h1>Update User Successful</h1>" : "<h1>Update User Failed</h1>";
     } catch (PDOException $e) {
         renderErrorMessage($e);
     }
@@ -162,7 +162,7 @@ function updateAccount($attributeName, $attribute, $queryAttribute, $pattern): v
         }
         $statement = $db->prepare($query);
         $result = $statement->execute();
-        echo $result ? "<p>success</p>" : "<p>error</p>";
+        echo $result ? "<h1>Update Account Successful</h1>" : "<h1>Update Account Failed</h1>";
     } catch (PDOException $e) {
         renderErrorMessage($e);
     }
@@ -174,7 +174,7 @@ function deleteAccount($attributeName, $pattern): void {
         $query = "DELETE FROM accounts WHERE {$attributeName} = '{$pattern}';";
         $statement = $db->prepare($query);
         $result = $statement->execute();
-        echo $result ? "<p>success</p>" : "<p>error</p>";
+        echo $result ? "<h1>Delete Account Successful</h1>" : "<h1>Delete Account Failed</h1>";
     } catch (PDOException $e) {
         renderErrorMessage($e);
     }
@@ -186,7 +186,7 @@ function deleteUser($attributeName, $pattern): void {
         $query = "DELETE FROM users WHERE {$attributeName} = '{$pattern}';";
         $statement = $db->prepare($query);
         $result = $statement->execute();
-        echo $result ? "<p>success</p>" : "<p>error</p>";
+        echo $result ? "<h1>Delete User Successful</h1>" : "<h1>Delete User Failed</h1>";
     } catch (PDOException $e) {
         renderErrorMessage($e);
     }
