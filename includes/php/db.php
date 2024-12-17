@@ -121,8 +121,8 @@ function searchBoth($search): void {
                 "app_name AS 'App Name', " .
                 "url AS 'URL', " .
                 "comment AS 'Comment', " .
-                "CAST(AES_DECRYPT(password, @key_str, @init_vector) AS CHAR ) AS 'Password' " .
-
+                "CAST(AES_DECRYPT(password, @key_str, @init_vector) AS CHAR ) AS 'Password', " .
+                "timestamp AS 'Timestamp' " .
             "FROM users NATURAL JOIN accounts WHERE " .
                 "first_name LIKE '%{$search}%' OR " .
                 "last_name LIKE '%{$search}%' OR " .
