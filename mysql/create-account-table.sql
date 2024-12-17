@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS accounts (
   username    VARCHAR(36)       DEFAULT NULL,
   password    VARBINARY(512)    NOT NULL,
   timestamp   TIME              NOT NULL,
-  FOREIGN KEY (username) REFERENCES users(username),
+  FOREIGN KEY (username) REFERENCES users(username) ON UPDATE CASCADE,
 
   PRIMARY KEY (app_name)
 );
