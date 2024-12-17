@@ -142,10 +142,6 @@ function searchBoth($search): void {
 function updateUser($attributeName, $attribute, $queryAttribute, $pattern): void {
     try {
         $db = connectDb();
-        // todo do add condition for username update
-        if($attribute == "username") {
-
-        }
         $query = "UPDATE users SET {$attributeName} = '{$attribute}' WHERE {$queryAttribute} = '{$pattern}';";
         $statement = $db->prepare($query);
         $result = $statement->execute();
